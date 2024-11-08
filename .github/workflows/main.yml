@@ -28,6 +28,23 @@ jobs:
   format:
     runs-on: ubuntu-lastest
     steps:
-        - name: Run black formatter
-          uses: rickstaa/action-black@v1.3.3
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv wheel
+      - name: Update Pipfile.lock
+        run: |
+          pipenv lock
+      - name: Install dependencies
+        run: |
+          pipenv install --deploy --dev
+    
+      - name: Run black formatter
+        uses: rickstaa/action-black@v1.3.3
             
